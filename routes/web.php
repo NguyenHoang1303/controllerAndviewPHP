@@ -1,11 +1,9 @@
 <?php
 
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataHandleController;
-use App\Models\Admin;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\ExampleAdminController;
 use Illuminate\Support\Facades\Route;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,13 +16,14 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
-Route::get('/login', [AccountController::class, 'showLogin']);
-Route::post('/login', [AccountController::class, 'postLogin'])->name('auth.login');
-Route::get('/register', [AccountController::class, 'showRegister']);
-Route::post('/register', [AccountController::class, 'register']);
-Route::get('/dashboard', [DashboardController::class, 'showDashboard']);
+//  Example Table, Form, Dashboard
+Route::prefix('admin')->group(function(){
+    Route::get('/', [ExampleAdminController::class, 'getDashboard'])->name('dashboard');
+    Route::get('/form', [ExampleAdminController::class, 'getForm'])->name('form');
+    Route::get('/table', [ExampleAdminController::class, 'getTable'])->name('table');
+});
 
-
+//==========================================================================================================
 
 Route::get('/data-handle/{id}/path', [DataHandleController::class, 'handlePathVariable']);
 Route::get('/data-handle/query-string', [DataHandleController::class, 'handleQueryString']);
@@ -32,7 +31,13 @@ Route::get('/data-handle/form', [DataHandleController::class, 'returnForm']);
 Route::post('/data-handle/form', [DataHandleController::class, 'processForm']);
 
 
-Route::get('/form', [DataHandleController::class, 'layout']);
 
-
+Route::prefix('/admin/event')->group(function (){
+    Route::get('/',[EventController::class,'getEvents'])->name('events');
+    Route::get('/creat',[EventController::class,'getForm'])->name('formEvents');
+    Route::post('/creat',[EventController::class,'save'])->name('createEvent');
+    Route::get('/update/{id}',[EventController::class,'getInformationUpdate'])->name('InformationUpdate');
+    Route::post('/update',[EventController::class,'update'])->name('updateEvent');
+    Route::get('/delete/{id}',[EventController::class,'delete'])->name('deleteEvent');
+});
 
