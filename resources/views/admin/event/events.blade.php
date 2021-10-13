@@ -51,7 +51,7 @@
 @section('breadcrumb')
     <div class="page-title">
         <div class="title_left">
-            <h3>Admin | Categories Page</h3>
+            <h3>Admin | Events Page</h3>
         </div>
     </div>
 @endsection
@@ -60,17 +60,17 @@
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Category Manager</h2>
+                    <h2>Event Manager</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <div class="col-md-12 col-sm-12 form-group pull-right top_search">
-                            {{--                            <form action="{{route('searchByNameCategory')}}" method="get">--}}
-                            <div class="input-group">
-                                <input type="text" class="form-control" value="{{$oldQuery ?? ""}}" name="nameQuery"
-                                       placeholder="Search for...">
-                                <span class="input-group-btn">
+                            <form action="{{route('searchByName')}}" method="get">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" value="{{$oldQuery ?? ""}}" name="nameQuery"
+                                           placeholder="Search by name...">
+                                    <span class="input-group-btn">
                                     <button class="btn btn-default">Go!</button>
                                  </span>
-                            </div>
+                                </div>
                             {{--                            </form>--}}
                         </div>
                     </ul>
@@ -123,7 +123,7 @@
                                                 <td>{{$item->startDate}}</td>
                                                 <td>{{$item->endDate}}</td>
                                                 <td>{{$item->portfolio}}</td>
-                                                <td>{{$item->ticketPrice}}</td>
+                                                <td>{{number_format($item->ticketPrice, 0, ',', ' ')}}</td>
                                                 <td>
                                                     @if($item->status == 1)
                                                         Đang diễn ra
@@ -179,7 +179,7 @@
                                         <div class="col-sm-5">
                                             <div class="dataTables_info" id="datatable_info" role="status"
                                                  aria-live="polite">Showing 1 {{ $paginate == 1 ? '': "to " .$paginate}}
-                                                of {{$sumRecord}} entries
+                                                of {{$sumRecord ?? ""}} entries
                                             </div>
                                         </div>
                                         <div class="col-sm-7">

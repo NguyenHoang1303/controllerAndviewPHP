@@ -39,5 +39,6 @@ Route::prefix('/admin/event')->group(function (){
     Route::get('/update/{id}',[EventController::class,'getInformationUpdate'])->name('InformationUpdate');
     Route::post('/update',[EventController::class,'update'])->name('updateEvent');
     Route::get('/delete/{id}',[EventController::class,'delete'])->name('deleteEvent');
+    Route::get('/search/name',[EventController::class,'searchByName'])->name('searchByName');
 });
 

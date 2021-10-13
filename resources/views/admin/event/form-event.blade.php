@@ -12,7 +12,7 @@
 @section('breadcrumb')
     <div class="page-title">
         <div class="title_left">
-            <h3>Admin | Categories Page</h3>
+            <h3>Admin | Event Page</h3>
         </div>
     </div>
 @endsection
@@ -21,7 +21,7 @@
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_title">
-                    <div class="col-md-3 col-sm-3"><h2>Form category</h2></div>
+                    <div class="col-md-3 col-sm-3"><h2>Form event</h2></div>
                     @if(Session::has('success'))
                         <div class="col-md-6 col-sm-6 success text-center p-1"><h6>{{ Session::get('success') }}</h6>
                         </div>

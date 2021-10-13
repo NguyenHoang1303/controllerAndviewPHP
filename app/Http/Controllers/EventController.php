@@ -5,14 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EventRequest;
 use App\Models\Event;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class EventController extends Controller
 {
+    function getEvents(){
+        $paginate = 5;
+        $sumRecord = DB::table('events')->count();
+        $data = DB::table('events')->orderBy('created_at')->where('status','!=',-1)->paginate($paginate);
+        return view('admin.event.events',[
+            'data'=> $data,
+            'paginate' => $paginate,
+            'sumRecord'=>$sumRecord
+        ]);
+    }
+
     function getForm(){
         return view('admin.event.form-event');
     }
+
     function save(EventRequest $req){
 
         $event = new Event();
@@ -45,16 +57,7 @@ class EventController extends Controller
             ->back()
             ->with('success','Success');
     }
-    function getEvents(){
-        $paginate = 5;
-        $sumRecord = DB::table('events')->count();
-        $data = DB::table('events')->orderBy('created_at')->where('status','!=',-1)->paginate($paginate);
-        return view('admin.event.events',[
-            'data'=> $data,
-            'paginate' => $paginate,
-            'sumRecord'=>$sumRecord
-            ]);
-    }
+
 
     function getInformationUpdate($id){
         $item = DB::table('events')->find($id);
@@ -101,6 +104,16 @@ class EventController extends Controller
         ]);
         return redirect('/admin/event')
             ->with('deleteSuccess','delete success');
+    }
+
+    function searchByName(Request $request){
+        $paginate = 5;
+        $name = $request->get('name');
+        $event = DB::table('events')->where('name','like', "%$name%")->paginate($paginate);
+        return view('admin.event.events',[
+            'data' => $event,
+            'paginate' => $paginate,
+        ]);
     }
 
 }
