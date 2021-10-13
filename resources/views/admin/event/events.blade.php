@@ -126,11 +126,13 @@
                                                 <td>{{$item->ticketPrice}}</td>
                                                 <td>
                                                     @if($item->status == 1)
-                                                        unlock
+                                                        Đang diễn ra
                                                     @elseif($item->status == 2)
-                                                        lock
+                                                        Sắp diễn ra
+                                                    @elseif($item->status == 3)
+                                                        Đã diễn ra
                                                     @else
-                                                        deleted
+                                                        Tạm hoãn
                                                     @endif
                                                 </td>
                                                 <td>{{$item->created_at}}</td>

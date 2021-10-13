@@ -46,9 +46,9 @@ class EventController extends Controller
             ->with('success','Success');
     }
     function getEvents(){
-        $paginate = 1;
+        $paginate = 5;
         $sumRecord = DB::table('events')->count();
-        $data = DB::table('events')->where('status','!=',-1)->paginate($paginate);
+        $data = DB::table('events')->orderBy('created_at')->where('status','!=',-1)->paginate($paginate);
         return view('admin.event.events',[
             'data'=> $data,
             'paginate' => $paginate,
