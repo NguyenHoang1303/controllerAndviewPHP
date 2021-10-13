@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class EventController extends Controller
 {
     function getEvents(){
-        $paginate = 5;
+        $paginate = 10;
         $sumRecord = DB::table('events')->count();
         $data = DB::table('events')->orderBy('created_at')->where('status','!=',-1)->paginate($paginate);
         return view('admin.event.events',[
@@ -107,12 +107,18 @@ class EventController extends Controller
     }
 
     function searchByName(Request $request){
-        $paginate = 5;
-        $name = $request->get('name');
-        $event = DB::table('events')->where('name','like', "%$name%")->paginate($paginate);
+        $paginate = 10;
+        $name = $request->get('nameQuery');
+        $event = DB::table('events')
+            ->where('name','like', '%'.$name.'%')
+            ->orWhere('brand','like', '%'.$name.'%')
+            ->orWhere('portfolio','like', '%'.$name.'%')
+            ->paginate($paginate);
+        $event->appends($request->all());
         return view('admin.event.events',[
             'data' => $event,
             'paginate' => $paginate,
+            'oldQuery' => $name
         ]);
     }
 

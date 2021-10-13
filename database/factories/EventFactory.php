@@ -25,10 +25,10 @@ class EventFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'brand' => 'Brand'. rand(1,100),
-            'startDate' => Carbon::create(2021, rand(1, 12), rand(1, 30), rand(0, 23), rand(0, 60), 00),
-            'endDate' => Carbon::create(2021, rand(1, 12), rand(1, 30), rand(0, 23), rand(0, 60), 00),
-            'portfolio' => 'Portfolio'. rand(1,100),
+            'brand' => $this->faker->name(),
+            'startDate' => $this->faker->dateTime(),
+            'endDate' => $this->faker->dateTime(),
+            'portfolio' => $this->faker->name(),
             'ticketPrice' => rand(100000, 1000000),
             'status' => rand(1, 4),
         ];

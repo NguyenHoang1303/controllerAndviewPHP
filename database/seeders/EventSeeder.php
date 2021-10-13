@@ -30,7 +30,7 @@ class EventSeeder extends Seeder
 //            $event->save();
 //        }
         Event::factory()
-            ->count(50)
+            ->count(100)
             ->create();
     }
 }

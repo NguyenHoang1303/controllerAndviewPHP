@@ -64,14 +64,15 @@
                     <ul class="nav navbar-right panel_toolbox">
                         <div class="col-md-12 col-sm-12 form-group pull-right top_search">
                             <form action="{{route('searchByName')}}" method="get">
+                                @csrf
                                 <div class="input-group">
                                     <input type="text" class="form-control" value="{{$oldQuery ?? ""}}" name="nameQuery"
-                                           placeholder="Search by name...">
+                                           placeholder="Search...">
                                     <span class="input-group-btn">
                                     <button class="btn btn-default">Go!</button>
                                  </span>
                                 </div>
-                            {{--                            </form>--}}
+                            </form>
                         </div>
                     </ul>
                     @if(session()->has('fail'))
@@ -120,10 +121,10 @@
                                             <tr>
                                                 <td>{{$item->name}}</td>
                                                 <td>{{$item->brand}}</td>
-                                                <td>{{$item->startDate}}</td>
-                                                <td>{{$item->endDate}}</td>
+                                                <td style=" width: 8%">{{$item->startDate}}</td>
+                                                <td style=" width: 8%">{{$item->endDate}}</td>
                                                 <td>{{$item->portfolio}}</td>
-                                                <td>{{number_format($item->ticketPrice, 0, ',', ' ')}}</td>
+                                                <td>{{number_format($item->ticketPrice, 2, ',', ' ')}}</td>
                                                 <td>
                                                     @if($item->status == 1)
                                                         Đang diễn ra
@@ -135,9 +136,9 @@
                                                         Tạm hoãn
                                                     @endif
                                                 </td>
-                                                <td>{{$item->created_at}}</td>
-                                                <td>{{$item->updated_at}}</td>
-                                                <td style="font-size: 14px; color: #0000c1;">
+                                                <td style=" width: 8%">{{$item->created_at}}</td>
+                                                <td style=" width: 8%">{{$item->updated_at}}</td>
+                                                <td style="font-size: 14px; color: #0000c1; width: 7%">
                                                     <div class="tooltip-bottom">
                                                     <span class="hover-pointer dataItem"
                                                           data-toggle="modal"
