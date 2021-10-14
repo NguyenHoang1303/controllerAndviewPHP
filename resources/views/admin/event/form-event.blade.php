@@ -120,7 +120,7 @@
                                 <select name="status" class="form-control">
                                     <option value="1">Đang diễn ra</option>
                                     <option value="2">Sắp diễn ra</option>
-                                    <option value="3">Đã diễm ra</option>
+                                    <option value="3">Đã diễn ra</option>
                                     <option value="0">Tạm hoãn</option>
                                 </select>
                             </div>

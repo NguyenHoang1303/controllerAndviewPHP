@@ -31,19 +31,12 @@ class EventController extends Controller
         $startDate = $req->get('startDate');
         $endDate = $req->get('endDate');
         $status = $req->get('status');
-        if ($startDate > $endDate){
-            return redirect()
-                ->back()
-                ->with('date','The start date cannot be greater than the end date')
-                ->withInput();
-        }
-
-        if ($endDate < Carbon::now('Asia/Ho_Chi_Minh') && ($status == 1 || $status == 2)){
-            return redirect()
-                ->back()
-                ->with('errorStatus',"End date is less than current date, so can't select ongoing or upcoming status")
-                ->withInput();
-        }
+//        if ($endDate < Carbon::now('Asia/Ho_Chi_Minh') && ($status == 1 || $status == 2)){
+//            return redirect()
+//                ->back()
+//                ->with('errorStatus',"End date is less than current date, so can't select ongoing or upcoming status")
+//                ->withInput();
+//        }
 
         $event->save();
         return redirect()

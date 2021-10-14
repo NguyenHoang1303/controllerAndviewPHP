@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EventRequest extends FormRequest
@@ -51,5 +52,23 @@ class EventRequest extends FormRequest
             'status.min'=>"Status must be number",
             'status.max'=>"Status must be from 0 to 3",
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $status = $this->get('status');
+            $endDate = $this->get('endDate');
+            $startDate = $this->get('startDate');
+            if($endDate < $startDate){
+                $validator->errors()->add('endDate', 'Tao không chơi với thằng Hùng.');
+            }
+            if($endDate < Carbon::now() && ($status == 1 || $status == 2) ){
+                $validator->errors()->add('endDate', "End date is less than current date, so can't select ongoing or upcoming status.");
+            }
+            if($startDate > Carbon::now() && ($status == 1 || $status == 3) ){
+                $validator->errors()->add('endDate', "Start date is less than current date, so can't select ongoing or ongoing status.");
+            }
+        });
     }
 }
