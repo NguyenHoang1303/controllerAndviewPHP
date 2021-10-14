@@ -1,10 +1,17 @@
 @extends('admin.master-admin')
 @section('page-css')
     <style>
-        .error{
-            color: red;
+        .error {
+            float: left;
         }
-        .success{
+
+        .x_title .alert-danger{
+            color: #ffffff;
+            background-color: rgba(232, 38, 16, 0.7);
+            border-color: rgba(255, 22, 0, 0.7);
+        }
+
+        .success {
             color: #00A000;
         }
     </style>
@@ -21,17 +28,14 @@
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_title">
-                    <div class="col-md-3 col-sm-3"><h2>Form event</h2></div>
-                    @if(Session::has('success'))
-                        <div class="col-md-6 col-sm-6 success text-center p-1"><h6>{{ Session::get('success') }}</h6>
-                        </div>
-                    @endif
-                    @if(Session::has('date'))
-                        <div class="col-md-6 col-sm-6 error text-center p-1"><h6>{{ Session::get('date') }}</h6>
-                        </div>
-                    @endif
-                    @if(Session::has('errorStatus'))
-                        <div class="col-md-6 col-sm-6 error text-center p-1"><h6>{{ Session::get('errorStatus') }}</h6>
+                    <div class="col-md-12 col-sm-12"><h2>Form event</h2></div>
+                    @if ($errors->any())
+                        <div class="col-md-12 col-sm-12 alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li class="col-md-4 col-sm-4">{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
                     @endif
                     <div class="clearfix"></div>
@@ -50,9 +54,9 @@
                                 <input type="text" name="name"
                                        value="{{ $item->name ?? request()->old('name') }}"
                                        class="form-control ">
-                                @if($errors->has('name'))
-                                    <div class="error ">{{ $errors->first('name') }}</div>
-                                @endif
+                                @error('name')
+                                <div class="text-danger">* {{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="item form-group">
@@ -61,9 +65,9 @@
                                 <input type="text" name="brand"
                                        value="{{ $item->brand ?? request()->old('brand') }}"
                                        class="form-control ">
-                                @if($errors->has('brand'))
-                                    <div class="error ">{{ $errors->first('brand') }}</div>
-                                @endif
+                                @error('brand')
+                                <div class="text-danger">* {{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="item form-group">
@@ -72,9 +76,9 @@
                                 <input type="datetime-local" name="startDate"
                                        value="{{isset($item) ? strftime('%Y-%m-%dT%H:%M:%S', strtotime($item->startDate)) : request()->old('startDate')}}"
                                        class="form-control ">
-                                @if($errors->has('startDate'))
-                                    <div class="error ">{{ $errors->first('startDate') }}</div>
-                                @endif
+                                @error('startDate')
+                                <div class="text-danger">* {{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="item form-group">
@@ -83,9 +87,9 @@
                                 <input type="datetime-local" name="endDate"
                                        value="{{ isset($item) ? strftime('%Y-%m-%dT%H:%M:%S', strtotime($item->endDate)) : request()->old('endDate')}}"
                                        class="form-control ">
-                                @if($errors->has('endDate'))
-                                    <div class="error ">{{ $errors->first('endDate') }}</div>
-                                @endif
+                                @error('endDate')
+                                <div class="text-danger">* {{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="item form-group">
@@ -94,9 +98,9 @@
                                 <input type="text" name="portfolio"
                                        value="{{$item->portfolio ?? request()->old('portfolio')}}"
                                        class="form-control ">
-                                @if($errors->has('portfolio'))
-                                    <div class="error ">{{ $errors->first('portfolio') }}</div>
-                                @endif
+                                @error('portfolio')
+                                <div class="text-danger">* {{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="item form-group">
@@ -105,16 +109,16 @@
                                 <input type="number" name="ticketPrice"
                                        value="{{$item->ticketPrice ?? request()->old('ticketPrice')}}"
                                        class="form-control ">
-                                @if($errors->has('ticketPrice'))
-                                    <div class="error ">{{ $errors->first('ticketPrice') }}</div>
-                                @endif
+                                @error('ticketPrice')
+                                <div class="text-danger">* {{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="form-group item">
                             <label class="col-form-label col-md-3 col-sm-3 label-align">Status</label>
                             <div class="col-md-6 col-sm-6 col-form-label">
-                                <select name="status" class="form-control" >
-                                    <option value="1" >Đang diễn ra</option>
+                                <select name="status" class="form-control">
+                                    <option value="1">Đang diễn ra</option>
                                     <option value="2">Sắp diễn ra</option>
                                     <option value="3">Đã diễm ra</option>
                                     <option value="0">Tạm hoãn</option>
@@ -146,13 +150,13 @@
         const endDate = $('input[name="endDate"]');
         const portfolio = $('input[name="portfolio"]');
         const ticketPrice = $('input[name="ticketPrice"]');
-        reset.on('click',function () {
-            name.attr('value','');
-            brand.attr('value','');
-            portfolio.attr('value','');
-            ticketPrice.attr('value','');
-            startDate.attr('value','');
-            endDate.attr('value','');
+        reset.on('click', function () {
+            name.attr('value', '');
+            brand.attr('value', '');
+            portfolio.attr('value', '');
+            ticketPrice.attr('value', '');
+            startDate.attr('value', '');
+            endDate.attr('value', '');
         })
     </script>
 @endsection

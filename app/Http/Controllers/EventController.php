@@ -27,17 +27,10 @@ class EventController extends Controller
 
     function save(EventRequest $req){
 
-        $event = new Event();
+        $event = new Event($req->all());
         $startDate = $req->get('startDate');
         $endDate = $req->get('endDate');
         $status = $req->get('status');
-        $event->name = $req->get('name');
-        $event->brand = $req->get('brand');
-        $event->startDate = $startDate;
-        $event->endDate = $endDate;
-        $event->portfolio = $req->get('portfolio');
-        $event->ticketPrice = $req->get('ticketPrice');
-        $event->status = $status;
         if ($startDate > $endDate){
             return redirect()
                 ->back()
@@ -69,10 +62,6 @@ class EventController extends Controller
         $startDate = $request->get('startDate');
         $endDate = $request->get('endDate');
         $status = $request->get('status');
-        $name = $request->get('name');
-        $brand = $request->get('brand');
-        $portfolio = $request->get('portfolio');
-        $ticketPrice = $request->get('ticketPrice');
         if ($startDate > $endDate){
             return redirect()
                 ->back()
@@ -86,12 +75,8 @@ class EventController extends Controller
                 ->with('errorStatus',"End date is less than current date, so can't select ongoing or upcoming status")
                 ->withInput();
         }
-        DB::table('events')->where('id', $request->get('id'))->update([
-            'name'=> $name, 'brand'=>$brand,
-            'startDate'=>$startDate, 'endDate'=>$endDate,
-            'portfolio'=>$portfolio, 'ticketPrice'=>$ticketPrice,
-            'status'=> $status
-        ]);
+        $request->request->remove('_token');
+        DB::table('events')->where('id', $request->get('id'))->update($request->all());
         return redirect('/admin/event')
             ->with('successUpdate','Success Update');
 

@@ -25,12 +25,14 @@ class EventFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'brand' => $this->faker->name(),
+            'brand' => $this->faker->company(),
             'startDate' => $this->faker->dateTime(),
             'endDate' => $this->faker->dateTime(),
             'portfolio' => $this->faker->name(),
             'ticketPrice' => rand(100000, 1000000),
             'status' => rand(1, 4),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ];
     }
 }
